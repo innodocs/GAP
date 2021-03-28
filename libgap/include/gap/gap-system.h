@@ -88,8 +88,3 @@ struct GAP_Vars {
 
 #endif /* LIBGAP_GAP_SYSTEM_H */
 
-/*
-g++ -std=c++17 -I ~/Projects/GAP/gap-4.11.1/src -I ~/Projects/GAP/gap-4.11.1/gen -I ~/Projects/GAP/libgap/include PE-001-01-gap.cpp -L/usr/local/lib -lgap -o PE-001-01-gap
-
-./PE-001-01-gap --gasinfo all -q -l ../../gap-4.11.1/ --nointeract
-*/

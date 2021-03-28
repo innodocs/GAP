@@ -75,12 +75,12 @@ int main(int argc, char *argv[])
 {
   Gap::Init(argc, argv);
 
-	static constexpr unsigned long MAX      = 1000000000000000000;
-	static constexpr unsigned long MAX_CINT =          1000000000;
+  static constexpr unsigned long MAX      = 1000000000000000000;
+  static constexpr unsigned long MAX_CINT =          1000000000;
 
-	int wMax = log10(MAX)+1;
-	int wSum = wMax*2;
-	int wTime = 10;
+  int wMax = log10(MAX)+1;
+  int wSum = wMax*2;
+  int wTime = 10;
 
   for (unsigned long max = 10; max <= MAX; max *= 10)
   {

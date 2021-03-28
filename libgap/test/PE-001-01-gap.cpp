@@ -23,41 +23,41 @@ using namespace Gap;
 
 namespace Problem1
 {
-	/**
-	 * solution1: brute force loop/filter/add
-	 * complexity: O(n)
-	 */
-	Gap::Int solution1(unsigned long N) {
+  /**
+   * solution1: brute force loop/filter/add
+   * complexity: O(n)
+   */
+  Gap::Int solution1(unsigned long N) {
     Gap::Int sum = 0;
 
-		for (unsigned long i = 0; i < N; i++) {
-			if (i % 3 == 0 || i % 5 == 0) {
-				sum += i;
-			}
-		}
+    for (unsigned long i = 0; i < N; i++) {
+      if (i % 3 == 0 || i % 5 == 0) {
+        sum += i;
+      }
+    }
 
-		return sum;
-	}
+    return sum;
+  }
 
-	/**
-	 * solution2: use sum of series formula: sum(i : 1..n, i) = n*(n+1)/2
-	 * complexity: O(1)
-	 */
-	Gap::Int sumOfSeries(unsigned long start, unsigned long end) {
-	  if (start > end)
-	    return 0;
+  /**
+   * solution2: use sum of series formula: sum(i : 1..n, i) = n*(n+1)/2
+   * complexity: O(1)
+   */
+  Gap::Int sumOfSeries(unsigned long start, unsigned long end) {
+    if (start > end)
+      return 0;
 
-	  Gap::Int diff = end - start;
-	  return (diff % 2 == 0) // or simply use diff.isEven()
-	     ?  (diff+1)    * ((start+end)/2)
-	     : ((diff+1)/2) *  (start+end);
-	}
+    Gap::Int diff = end - start;
+    return (diff % 2 == 0) // or simply use diff.isEven()
+       ?  (diff+1)    * ((start+end)/2)
+       : ((diff+1)/2) *  (start+end);
+  }
 
-	Gap::Int solution2(unsigned long N) {
-		return 3 * sumOfSeries(1, (N-1)/3)
-			  +  5 * sumOfSeries(1, (N-1)/5)
-			  - 15 * sumOfSeries(1, (N-1)/15);
-	}
+  Gap::Int solution2(unsigned long N) {
+    return 3 * sumOfSeries(1, (N-1)/3)
+        +  5 * sumOfSeries(1, (N-1)/5)
+        - 15 * sumOfSeries(1, (N-1)/15);
+  }
 };
 
 
@@ -65,17 +65,17 @@ int main(int argc, char *argv[])
 {
   Gap::Init(argc, argv);
 
-	static constexpr unsigned long MAX = 1000000000;
-	//
-	// for higher numbers, disable the first (solution1) loop
-	// otherwise it will take forever
-	// static constexpr unsigned long MAX = 1000000000000000000;
+  static constexpr unsigned long MAX = 1000000000;
   //
-	static constexpr int nrRuns = 10;
+  // for higher numbers, disable the first (solution1) loop
+  // otherwise it will take forever
+  // static constexpr unsigned long MAX = 1000000000000000000;
+  //
+  static constexpr int nrRuns = 10;
 
-	int wMax = log10(MAX)+1;
-	int wSum = wMax*2;
-	int wTime = 10;
+  int wMax = log10(MAX)+1;
+  int wSum = wMax*2;
+  int wTime = 10;
 
   for (unsigned long max = 10; max <= MAX; max *= 10)
   {
