@@ -55,14 +55,14 @@ installation directory:
 
 * define/alter the following environment variables
 
-    export GAP_DIR="<path to your GAP installation>"
-    export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$GAP_DIR/src:$GAP_DIR/gen"
+       export GAP_DIR="path to your GAP installation"
+       export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$GAP_DIR/src:$GAP_DIR/gen"
 
 * to test the C++ libgap interface, go to the `test` directory, compile and run
 the example programs, e.g.:
 
-  g++ -std=c++17 -I ../include -lgap PE-001-01-mixed.cpp -o PE-001-01-mixed
-  ./PE-001-01-mixed
+      g++ -std=c++17 -I ../include -lgap PE-001-01-mixed.cpp -o PE-001-01-mixed
+      ./PE-001-01-mixed
   
 If everything went OK, you should see the following output:
 
