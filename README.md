@@ -1,18 +1,25 @@
 # GAP
 
-<h2>C++ libgap Interface</h2>
+<h2>C++ LibGAP Interface</h2>
+
+- [Introduction](#introduction)
+- [Building the System](#building-the-system)
+- [Bibliography](#bibliography)
+
+<h3>Introduction</h3>
 
 The goal of this project is to build a C++ layer for interfacing
 with the GAP system (Groups, Algorithms, and Programming [GAP2021]).
 
-From the introduction at www.gap-system.org, "GAP is a system
-for computational discrete algebra, with particular emphasis
-on Computational Group Theory. GAP provides a programming
-language, a library of thousands of functions implementing
-algebraic algorithms written in the GAP language as well as
-large data libraries of algebraic objects."
+From the introduction at www.gap-system.org:
+>GAP is a system
+>for computational discrete algebra, with particular emphasis
+>on Computational Group Theory. GAP provides a programming
+>language, a library of thousands of functions implementing
+>algebraic algorithms written in the GAP language as well as
+>large data libraries of algebraic objects.
 
-Initially this wealth of mathematical algorithms could
+Initially, this wealth of mathematical algorithms could
 only be accessed via the GAP REPL (Read-Eval-Print-Loop).
 Subsequently a GAP-to-C compiler was added, which could translate
 GAP language programs into C and allow them to be linked into
@@ -44,6 +51,7 @@ The goal of this project is to provide such an API for C++.
   
       static Obj StringIntBase(Obj op, int base)
 
+
 * rebuild the system by re-issuing the make command in the GAP
 installation directory:
 
@@ -58,11 +66,11 @@ installation directory:
        export GAP_DIR="path to your GAP installation"
        export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$GAP_DIR/src:$GAP_DIR/gen"
 
-* to test the C++ libgap interface, go to the `test` directory, compile and run
+* to test the C++ LibGAP interface, go to the `test` directory, compile and run
 the example programs, e.g.:
 
-      g++ -std=c++17 -I ../include -lgap PE-001-01-mixed.cpp -o PE-001-01-mixed
-      ./PE-001-01-mixed
+      g++ -std=c++17 -I ../include -lgap PE-001-mixed.cpp -o PE-001-mixed
+      ./PE-001-mixed
   
 If everything went OK, you should see the following output:
 

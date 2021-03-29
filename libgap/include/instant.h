@@ -76,7 +76,7 @@ public:
    * a long.
    */
   inline long toNanos() {
-    return (1000000.0 * duration) / CLOCKS_PER_SEC;
+    return (1000000000.0 / CLOCKS_PER_SEC) * duration;
   }
 
 protected:

@@ -60,7 +60,8 @@ void testHarness(const unsigned long max,
    }
   } end = Instant::now();
 
-  double d = static_cast<double>(Duration::between(start, end).toNanos()) / (1000*nrRuns);
+  double d = static_cast<double>(Duration::between(start, end).toNanos())
+             / (1000000*nrRuns);
   cout << "sol 2 "
        << " | " << setw(wTime) << d
        << " | " << setw(wMax)  << max
