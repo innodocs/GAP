@@ -73,7 +73,7 @@ inline Rat::Rat(const Int& i)
   : Rat(i, 1)
 {}
 inline Rat::Rat(const Int& num, const Int& den)
-  : super(GAP_MakeRat(num.gapObj, den.gapObj))
+  : super(GAP_MakeRat(getGapObj(num), getGapObj(den)))
 {}
 
 
@@ -84,11 +84,11 @@ inline Rat::Rat(const Int& num, const Int& den)
 */
 inline Int Rat::num() const noexcept
 {
-  return Int(NUM_RAT(gapObj));
+  return Obj::makeObj<Int, Rat>(NUM_RAT(gapObj));
 }
 inline Int Rat::den() const noexcept
 {
-  return Int(DEN_RAT(gapObj));
+  return Obj::makeObj<Int, Rat>(DEN_RAT(gapObj));
 }
 
 /****************************************************************************

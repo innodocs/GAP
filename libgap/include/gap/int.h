@@ -30,8 +30,11 @@ namespace Gap {
 class Int : public Obj
 {
 protected: // construction from GAP object reference, non-public
-  typedef Obj super; friend class Rat;
+  typedef Obj super;
   explicit Int(const GAP_Obj gapObj) : super(gapObj) {}
+private: friend class Obj;
+  template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+  static const Int makeObj(const GAP_Obj gapObj) { return Int(gapObj); }
 
 public: // construction, conversion
   Int(const GAP_UInt* limbs, GAP_Int size);

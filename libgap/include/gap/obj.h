@@ -39,8 +39,12 @@ class Obj
 protected:
   GAP_Obj gapObj;
 
-protected: // construction
-  explicit Obj(GAP_Obj gapObj);
+protected: // construction from GAP object reference, non-public
+  explicit Obj(GAP_Obj _gapObj);
+
+  static const GAP_Obj getGapObj(const Obj& obj) { return obj.gapObj; }
+  template<typename T1, typename T2, typename std::enable_if<std::is_base_of<Obj, T1>::value>::type* = nullptr>
+  static const T1 makeObj(const GAP_Obj gapObj) { return T1::template makeObj<T2>(gapObj); }
 
 public:    // construction (copy, move)
   Obj(const Obj& obj);
@@ -55,6 +59,13 @@ public: // operations
   string toString() const;
   //friend ostream& operator<<(ostream& os, const Obj& o);
 };
+
+#if 0
+  template<typename T1, typename T2, typename std::enable_if<std::is_base_of<Obj, T2>::value>::type* = nullptr>
+  const T1 makeObj(const GAP_Obj& gapObj) {
+    return T1(gapObj);
+  }
+#endif
 
 inline Obj::Obj(GAP_Obj _gapObj)
   : gapObj(_gapObj)
@@ -91,6 +102,7 @@ inline string Obj::toString() const
 {
   return string();
 }
+
 
 
 /****************************************************************************
