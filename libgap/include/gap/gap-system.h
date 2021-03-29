@@ -14,10 +14,8 @@
 #define LIBGAP_GAP_SYSTEM_H
 
 extern "C" {
-
 #include "system.h"
 #include "libgap-api.h"
-
 }
 
 /**
@@ -41,6 +39,25 @@ typedef ::UInt GAP_UInt;
 
 typedef ::Obj GAP_Obj;
 
+/**
+ * integer.h
+ */
+extern "C" {
+GAP_Obj StringIntBase(GAP_Obj op, int base);
+}
+
+/**
+ * rational.h
+ */
+extern "C" {
+Obj GAP_MakeRat(GAP_Obj num, GAP_Obj den);
+GAP_Int EqRat(GAP_Obj opL, GAP_Obj opR);
+GAP_Int LtRat(GAP_Obj opL, GAP_Obj opR);
+GAP_Obj SumRat(GAP_Obj opL, GAP_Obj opR);
+GAP_Obj DiffRat(GAP_Obj opL, GAP_Obj opR);
+GAP_Obj AInvRat(GAP_Obj op);
+GAP_Obj ProdRat(GAP_Obj opL, GAP_Obj opR);
+}
 
 /****************************************************************************
 **

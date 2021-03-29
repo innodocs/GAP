@@ -25,12 +25,12 @@ namespace Gap {
 
 /****************************************************************************
 **
-*C Gap::Int . . . . . . . . . . . . . . . . . . . . . . . . GAP integer class
+*C Gap::Int . . . . . . . . . . . . . . . . . . . . . . . .GAP integers class
 */
 class Int : public Obj
 {
 protected: // construction from GAP object reference, non-public
-  typedef Obj super;
+  typedef Obj super; friend class Rat;
   explicit Int(const GAP_Obj gapObj) : super(gapObj) {}
 
 public: // construction, conversion
@@ -74,6 +74,7 @@ public: // operations
   Int& operator*= (const Int& opR);
   Int& operator/= (const Int& opR);
   Int& operator%= (const Int& opR);
+
   Int  operator-  () const;
 
   static Int pow(const Int& opL, const Int& opR);
