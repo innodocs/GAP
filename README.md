@@ -142,11 +142,16 @@ Pi   | 131777.000 |  524288 | 3.141590746241160427697366859248421369556971293420
   is 4.11.1, at https://www.gap-system.org/Releases/4.11.1.html
 
 * if the build is successful and you have tested the installation, you need
-  to alter one source file, `src/integer.c`. On line `792`, remove
-  the `static` keyword:
+  to alter a few source files in the `src` folder:
   
-      static Obj StringIntBase(Obj op, int base)
+     * `integer.c`: remove the `static` keyword from `StringIntBase`
+     * `rational.c`: remove the `static` keyword from
+       `EqRat`, `LtRat`, `SumRat`, `DiffRat`, `AInvRat`, `ProdRat`, and add the following
+       definition
 
+      Obj GAP_MakeRat(Obj num, Obj den) {
+        return MakeRat(num, den); 
+      }
 
 * rebuild the system by re-issuing the make command in the GAP
 installation directory:
