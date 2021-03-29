@@ -95,7 +95,7 @@ with `Gap::Int`.
 <h4>Rationals</h4>
 
 - include the `gap/rat.h` header file
-- define variables using the `Gap::Int` type
+- define variables using the `Gap::Rat` type
 - use them as you would use a normal C `int`
 
 For example:
