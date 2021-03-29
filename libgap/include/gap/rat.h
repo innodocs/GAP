@@ -132,7 +132,7 @@ inline bool Rat::isRat(const Rat& val)
 *F  <opL> '==' <opR> . . . . . . . . . . . . .test if two rationals are equal
 **
 **  the '==' operator returns 'true' if this rational is equal to <opR>, and
-**  'false' otherwise
+**  'false' otherwise.
 */
 inline bool Rat::operator==(const Rat& opR) const noexcept
 {

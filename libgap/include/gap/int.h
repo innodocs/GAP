@@ -170,7 +170,6 @@ inline int Int::size() const noexcept
 **
 *F  toString( <base> ) . . . . . . . . . . . convert this integer to a string
 *F  <stream> << <op> . . . . . . . . . . . . . . . . .write integer to stream
-**
 */
 inline string Int::toString(const int base) const
 {
