@@ -42,8 +42,44 @@ typedef ::Obj GAP_Obj;
 /**
  * integer.h
  */
-extern "C" {
-GAP_Obj StringIntBase(GAP_Obj op, int base);
+extern "C" GAP_Obj StringIntBase(GAP_Obj op, int base);
+inline GAP_Obj GAP_StringIntBase(GAP_Obj op, int base)
+{
+  return StringIntBase(op, base);
+}
+
+extern "C" GAP_Obj SumOrDiffInt(GAP_Obj opL, GAP_Obj opR, Int sign);
+inline GAP_Obj GAP_SumInt(GAP_Obj opL, GAP_Obj opR)
+{
+    Obj sum;
+    if (!ARE_INTOBJS(opL, opR) || !SUM_INTOBJS(sum, opL, opR))
+        sum = SumOrDiffInt(opL, opR, +1);
+    return sum;
+}
+inline GAP_Obj GAP_DiffInt(GAP_Obj opL, GAP_Obj opR)
+{
+    Obj dif;
+    if (!ARE_INTOBJS(opL, opR) || !DIFF_INTOBJS(dif, opL, opR))
+        dif = SumOrDiffInt(opL, opR, -1);
+    return dif;
+}
+
+extern "C" GAP_Obj ProdInt(GAP_Obj opL, GAP_Obj opR);
+inline GAP_Obj GAP_ProdInt(GAP_Obj opL, GAP_Obj opR)
+{
+  GAP_Obj prd;
+  if (!ARE_INTOBJS(opL, opR) || !PROD_INTOBJS(prd, opL, opR))
+    prd = ProdInt(opL, opR);
+  return prd;
+}
+
+extern "C" GAP_Obj RemInt(Obj opL, Obj opR);
+inline GAP_Obj GAP_RemInt(GAP_Obj opL, GAP_Obj opR)
+{
+  if (ARE_INTOBJS(opL, opR))
+    return INTOBJ_INT(INT_INTOBJ(opL) % INT_INTOBJ(opR));
+  else
+    return RemInt(opL, opR);
 }
 
 /**

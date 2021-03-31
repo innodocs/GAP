@@ -300,7 +300,7 @@ inline bool Int::operator<(const Int& opR) const noexcept {
 */
 inline Int& Int::operator+=(const Int& opR)
 {
-  *this = Int(SumInt(gapObj, opR.gapObj));
+  *this = Int(GAP_SumInt(gapObj, opR.gapObj));
   return *this;
 }
 
@@ -325,7 +325,7 @@ inline Int operator+(Int opL, const Int& opR)
 */
 inline Int& Int::operator-=(const Int& opR)
 {
-  *this = Int(DiffInt(gapObj, opR.gapObj));
+  *this = Int(GAP_DiffInt(gapObj, opR.gapObj));
   return *this;
 }
 inline Int operator-(Int opL, const Int& opR)
@@ -348,7 +348,7 @@ inline Int Int::operator-() const
 */
 inline Int& Int::operator*=(const Int& opR)
 {
-  *this = Int(ProdInt(gapObj, opR.gapObj));
+  *this = Int(GAP_ProdInt(gapObj, opR.gapObj));
   return *this;
 }
 inline Int operator*(Int opL, const Int& opR)
@@ -388,7 +388,7 @@ inline Int operator/(Int opL, const Int& opR)
 */
 inline Int& Int::operator%=(const Int& opR)
 {
-  *this = Int(RemInt(gapObj, opR.gapObj));
+  *this = Int(GAP_RemInt(gapObj, opR.gapObj));
   return *this;
 }
 inline Int operator%(Int opL, const Int& opR)
