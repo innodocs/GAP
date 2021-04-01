@@ -6,7 +6,7 @@
 **
 **  Compute 'pi' using the series
 **
-**     1 - 1/3 + 1/5 - 1/7 ...
+**     1 - 1/3 + 1/5 - 1/7 ... = pi/4
 **
 */
 
@@ -85,13 +85,12 @@ int main(int argc, char *argv[])
 
   static constexpr unsigned long MAX = 1000000;
 
-  int wMax = log10(MAX)+1;
-  int wSum = 50;
-  int wTime = 10;
+  int wMax  = log10(MAX)+1;
+  int wSum  = 50;
+  int wTime = 14;
 
   for (unsigned long max = 2; max <= MAX; max *= 2)
-      Pi::testHarness<1>(max, wMax, wSum, wTime);
-
+    Pi::testHarness<1>(max, wMax, wMax, wTime);
 
   return 0;
 }
