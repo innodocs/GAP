@@ -90,19 +90,6 @@ Obj& Obj::operator= (Obj&& obj)
 
 /****************************************************************************
 **
-*F  <opL> '==' <opR> . . . . . . . . . . . . .test if two rationals are equal
-**
-**  the '==' operator  returns 'true'  if this object is equal to <opR>,  and
-**  'false' otherwise.
-*/
-inline bool Obj::operator==(const Obj& opR) const noexcept
-{
-  return GAP_EQ(gapObj, opR.gapObj) == 1;
-}
-
-
-/****************************************************************************
-**
 *F  toString( <base> ) . . . . . . . . . . . convert this integer to a string
 *F  <stream> << <op> . . . . . . . . . . . . . . . . .write integer to stream
 */
@@ -110,9 +97,65 @@ inline string Obj::toString() const
 {
   return string();
 }
+
 inline ostream& operator<<(ostream& os, const Obj& op)
 {
   return os;
+}
+
+
+/****************************************************************************
+**
+*F  <opL> '==' <opR> . . . . . . . . . . . . .test if two rationals are equal
+*F  <opL> '!=' <opR> . . . . . . . . . . . .test if two objects are not equal
+**
+**  the '==' operator  returns 'true'  if this object is equal to  <opR>, and
+**  'false' otherwise.
+**
+**  the '!=' operator  returns 'true' if this object is not equal  to  <opR>,
+**  and 'false' otherwise.
+*/
+inline bool Obj::operator==(const Obj& opR) const noexcept
+{
+  return GAP_EQ(gapObj, opR.gapObj) == 1;
+}
+
+template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+inline bool operator!=(const T& opL, const T& opR) noexcept
+{
+  return !(opL == opR);
+}
+
+/****************************************************************************
+**
+*F  <opL> '<=' <opR> . . . . .test if an object is less or equal than another
+*F  <opL> '>' <opR>. . . . . . . . .test if an obhect is greater than another
+*F  <opL> '>=' <opR> . . . test if an object is greater or equal than another
+**
+**  the '<=' operator returns 'true' if the object <opL> is less than or equal
+**  to the object <opR> and 'false' otherwise.
+**
+**  the '>' operator returns 'true' if the object  <opL>  is strictly greater
+**  than the integer <opR> and 'false' otherwise.
+**
+**  the '>=' operator returns 'true' if the object  <opL>  is greater than or
+**  equal to the object <opR> and 'false' otherwise.
+**
+*/
+template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+inline bool operator<=(const T& opL, const T& opR) noexcept
+{
+  return !(opR < opL);
+}
+
+template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+inline bool operator>(const T& opL, const T& opR) noexcept {
+  return opR < opL;
+}
+
+template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+inline bool operator>=(const T& opL, const T& opR) noexcept {
+  return !(opL < opR);
 }
 
 

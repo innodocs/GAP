@@ -5,139 +5,177 @@
 **
 *L  SPDX-License-Identifier: GPL-2.0-or-later
 **
-**  This file imports all low-level declarations from the GAP system which are
-**  are needed by the C++ LibGap interface/library, and provides name aliases
-**  for disamiguating name clashes.
+**  This file declares the base class of the GAP C++ class hierarchy.
 */
 
-#ifndef LIBGAP_GAP_SYSTEM_H
-#define LIBGAP_GAP_SYSTEM_H
+#ifndef LIBGAP_OBJ_H
+#define LIBGAP_OBJ_H
 
-extern "C" {
-#include "system.h"
-#include "libgap-api.h"
-}
+#include <string>
+#include <iostream>
 
-/**
- * systen.h
- */
-typedef ::Char GAP_Char;
-typedef ::UChar GAP_UChar;
+#include "gap-system.h"
 
-typedef ::Int1 GAP_Int1;
-typedef ::Int2 GAP_Int2;
-typedef ::Int4 GAP_Int4;
-typedef ::Int8 GAP_Int8;
+namespace Gap {
 
-typedef ::UInt1 GAP_UInt1;
-typedef ::UInt2 GAP_UInt2;
-typedef ::UInt4 GAP_UInt4;
-typedef ::UInt8 GAP_UInt8;
-
-typedef ::Int GAP_Int;
-typedef ::UInt GAP_UInt;
-
-typedef ::Obj GAP_Obj;
-
-/**
- * integer.h
- */
-extern "C" GAP_Obj StringIntBase(GAP_Obj op, int base);
-inline GAP_Obj GAP_StringIntBase(GAP_Obj op, int base)
+/****************************************************************************
+**
+*C  Obj . . . . . . . . . . . . . . . . base class of the GAP class hierarchy
+**
+**  The class defines the construction/copy/move semantics and rules enabling
+**  references to garbage-collected GAP objects from C++ code.
+**
+**  For the case when the GAP garbage collector will scan the C++ stack,  the
+**  copy/move methods are trivial, as nothing needs to be done.  For the case
+**  when the application has custom/multiple stacks (e.g. multi-threaded app,
+**  etc), a custom callback for marking bags has to be implemented and
+**  provided to 'Gap::Init'.
+**
+*!  TODO: implement alternative management scheme for GAP references based on
+*!  std:shared_ptr
+*/
+class Obj
 {
-  return StringIntBase(op, base);
+protected:
+  GAP_Obj gapObj;
+
+protected: // construction from GAP object reference, non-public
+  explicit Obj(GAP_Obj _gapObj);
+
+  static const GAP_Obj getGapObj(const Obj& obj) { return obj.gapObj; }
+  template<typename T1, typename T2, typename std::enable_if<std::is_base_of<Obj, T1>::value>::type* = nullptr>
+  static const T1 makeObj(const GAP_Obj gapObj) { return T1::template makeObj<T2>(gapObj); }
+
+public:    // construction, assignement (copy, move)
+  Obj(const Obj& obj);
+  Obj(Obj&& obj) noexcept;
+
+  Obj& operator= (const Obj& obj);
+  Obj& operator= (Obj&& obj);
+
+  string toString() const;
+
+public: // operations
+  bool operator==(const Obj& opR) const noexcept;
+
+  friend ostream& operator<<(ostream& os, const Obj& op);
+};
+
+
+inline Obj::Obj(GAP_Obj _gapObj)
+  : gapObj(_gapObj)
+{}
+
+inline Obj::Obj(const Obj& obj)
+  : gapObj(obj.gapObj)
+{}
+
+inline Obj::Obj(Obj&& obj) noexcept
+  : gapObj(obj.gapObj) //std::exchange(obj.gapObj, 0))
+{}
+
+Obj& Obj::operator= (const Obj& obj)
+{
+  if (this != &obj)
+    gapObj = obj.gapObj;
+  return *this;
 }
 
-extern "C" GAP_Obj SumOrDiffInt(GAP_Obj opL, GAP_Obj opR, Int sign);
-inline GAP_Obj GAP_SumInt(GAP_Obj opL, GAP_Obj opR)
+Obj& Obj::operator= (Obj&& obj)
 {
-    Obj sum;
-    if (!ARE_INTOBJS(opL, opR) || !SUM_INTOBJS(sum, opL, opR))
-        sum = SumOrDiffInt(opL, opR, +1);
-    return sum;
-}
-inline GAP_Obj GAP_DiffInt(GAP_Obj opL, GAP_Obj opR)
-{
-    Obj dif;
-    if (!ARE_INTOBJS(opL, opR) || !DIFF_INTOBJS(dif, opL, opR))
-        dif = SumOrDiffInt(opL, opR, -1);
-    return dif;
-}
-
-extern "C" GAP_Obj ProdInt(GAP_Obj opL, GAP_Obj opR);
-inline GAP_Obj GAP_ProdInt(GAP_Obj opL, GAP_Obj opR)
-{
-  GAP_Obj prd;
-  if (!ARE_INTOBJS(opL, opR) || !PROD_INTOBJS(prd, opL, opR))
-    prd = ProdInt(opL, opR);
-  return prd;
-}
-
-extern "C" GAP_Obj RemInt(Obj opL, Obj opR);
-inline GAP_Obj GAP_RemInt(GAP_Obj opL, GAP_Obj opR)
-{
-  if (ARE_INTOBJS(opL, opR))
-    return INTOBJ_INT(INT_INTOBJ(opL) % INT_INTOBJ(opR));
-  else
-    return RemInt(opL, opR);
-}
-
-/**
- * rational.h
- */
-extern "C" {
-Obj GAP_MakeRat(GAP_Obj num, GAP_Obj den);
-GAP_Int EqRat(GAP_Obj opL, GAP_Obj opR);
-GAP_Int LtRat(GAP_Obj opL, GAP_Obj opR);
-GAP_Obj SumRat(GAP_Obj opL, GAP_Obj opR);
-GAP_Obj DiffRat(GAP_Obj opL, GAP_Obj opR);
-GAP_Obj AInvRat(GAP_Obj op);
-GAP_Obj ProdRat(GAP_Obj opL, GAP_Obj opR);
+  if (this != &obj)
+    gapObj = obj.gapObj;
+  return *this;
 }
 
 /****************************************************************************
 **
-*S  GAP_Vars . . . . . . . . . . . . . . . . . . . . . . . GAP_Vars structure
-**
-**  Code which uses the GAP API exposed by the 'libgap-api' header file should
-**  sandwich any such calls between uses of the GAP_Enter() and GAP_Leave()
-**  macro as follows:
-**
-**    int ok = GAP_Enter();
-**    if (ok) {
-**      ... // any number of calls to GAP APIs
-**    }
-**    GAP_Leave();
-**
-**  In C++, this can be better achieved with a class which calls 'GAP_Enter'
-**  in the constructor, 'GAP_Leave' in the destructor, and then place a local
-**  variable (guard) of this type in each section of code which uses the GAP
-**  API.
-**
-**  The 'GAP_VARS' macro defines such a guard variable, so the above code is
-**  reduced to writing
-**
-**    GAP_VARS
-**
-**  before starting to declare GAP API variables in a block of code.
-**
-**  This is not needed in most cases as the C and C++ stacks are one and the
-**  same. If you need this support in your application, define 'SYS_MARK_TOS'
+*F  toString( <base> ) . . . . . . . . . . . convert this integer to a string
+*F  <stream> << <op> . . . . . . . . . . . . . . . . .write integer to stream
 */
-#ifdef LIBGAP_MARK_TOS
+inline string Obj::toString() const
+{
+  return string();
+}
 
-struct GAP_Vars {
-  GAP_Vars()    { int ok = GAP_Enter(); }
-  ~GAP_Vars()   { GAP_Leave(); }
-};
+inline ostream& operator<<(ostream& os, const Obj& op)
+{
+  return os;
+}
 
-#define GAP_VARS    GAP_Vars __gap_vars_def;
 
-#else
+/****************************************************************************
+**
+*F  <opL> '==' <opR> . . . . . . . . . . . . .test if two rationals are equal
+*F  <opL> '!=' <opR> . . . . . . . . . . . .test if two objects are not equal
+**
+**  the '==' operator  returns 'true'  if this object is equal to  <opR>, and
+**  'false' otherwise.
+**
+**  the '!=' operator  returns 'true' if this object is not equal  to  <opR>,
+**  and 'false' otherwise.
+*/
+inline bool Obj::operator==(const Obj& opR) const noexcept
+{
+  return GAP_EQ(gapObj, opR.gapObj) == 1;
+}
 
-#define GAP_VARS    do {} while(0);
+template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+inline bool operator!=(const T& opL, const T& opR) noexcept
+{
+  return !(opL == opR);
+}
 
-#endif /* LIBGAP_MARK_TOS */
+/****************************************************************************
+**
+*F  <opL> '<=' <opR> . . . . .test if an object is less or equal than another
+*F  <opL> '>' <opR>. . . . . . . . .test if an obhect is greater than another
+*F  <opL> '>=' <opR> . . . test if an object is greater or equal than another
+**
+**  the '<=' operator returns 'true' if the object <opL> is less than or equal
+**  to the object <opR> and 'false' otherwise.
+**
+**  the '>' operator returns 'true' if the object  <opL>  is strictly greater
+**  than the integer <opR> and 'false' otherwise.
+**
+**  the '>=' operator returns 'true' if the object  <opL>  is greater than or
+**  equal to the object <opR> and 'false' otherwise.
+**
+*/
+template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+inline bool operator<=(const T& opL, const T& opR) noexcept
+{
+  return !(opR < opL);
+}
 
-#endif /* LIBGAP_GAP_SYSTEM_H */
+template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+inline bool operator>(const T& opL, const T& opR) noexcept {
+  return opR < opL;
+}
 
+template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+inline bool operator>=(const T& opL, const T& opR) noexcept {
+  return !(opL < opR);
+}
+
+
+/****************************************************************************
+**
+*C  Init( <args> ) . . . . . . . . . . . . . . . . .initialise the GAP system
+**
+**  This function has to be called before any other GAP functions, ideally at
+**  or close to the start of your 'main' function.
+*/
+typedef GAP_CallbackFunc CallbackFunc;
+
+inline void Init(int argc, char *argv[],
+                 CallbackFunc markBagsCallback = NULL,
+                 CallbackFunc errorCallback = NULL,
+                 bool handleSignals = false)
+{
+  GAP_Initialize(argc, argv, markBagsCallback, errorCallback, handleSignals?1:0);
+}
+
+} /* namespace Gap */
+
+#endif /* LIBGAP_OBJ_H */

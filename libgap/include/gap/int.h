@@ -273,19 +273,21 @@ inline bool Int::isEven(const Int& i) noexcept {
 **  the '==' operator returns 'true' if this integer is equal to <opR>, and
 **  'false' otherwise
 */
-inline bool Int::operator==(const Int& opR) const noexcept {
+inline bool Int::operator==(const Int& opR) const noexcept
+{
   return EqInt(gapObj, opR.gapObj);
 }
 
 
 /****************************************************************************
 **
-*F  <opL> '<' <opR> . . . . . . . . . test if an integer is less than another
+*F  <opL> '<'  <opR> . . . . . . . . .test if an integer is less than another
 **
 **  the '<' operator returns 'true' if this integer is strictly less than the
 **  integer <opR> and 'false' otherwise.
 */
-inline bool Int::operator<(const Int& opR) const noexcept {
+inline bool Int::operator<(const Int& opR) const noexcept
+{
   return LtInt(gapObj, opR.gapObj) == 1;
 }
 
