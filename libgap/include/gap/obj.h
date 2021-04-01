@@ -42,9 +42,9 @@ protected:
 protected: // construction from GAP object reference, non-public
   explicit Obj(GAP_Obj _gapObj);
 
-  static const GAP_Obj getGapObj(const Obj& obj) { return obj.gapObj; }
-  template<typename T1, typename T2, typename std::enable_if<std::is_base_of<Obj, T1>::value>::type* = nullptr>
-  static const T1 makeObj(const GAP_Obj gapObj) { return T1::template makeObj<T2>(gapObj); }
+  template<typename T, typename TC, typename std::enable_if<std::is_base_of<Obj, TC>::value>::type* = nullptr>
+  static const T       apply(const GAP_Obj gapObj) { return T::template apply<TC>(gapObj); }
+  static const GAP_Obj unapply(const Obj& obj) { return obj.gapObj; }
 
 public:    // construction, assignement (copy, move)
   Obj(const Obj& obj);

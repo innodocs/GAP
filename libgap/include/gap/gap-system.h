@@ -81,6 +81,7 @@ inline GAP_Obj GAP_RemInt(GAP_Obj opL, GAP_Obj opR)
     : RemInt(opL, opR);
 }
 
+
 /**
  * rational.h
  */
@@ -92,7 +93,14 @@ GAP_Obj SumRat(GAP_Obj opL, GAP_Obj opR);
 GAP_Obj DiffRat(GAP_Obj opL, GAP_Obj opR);
 GAP_Obj AInvRat(GAP_Obj op);
 GAP_Obj ProdRat(GAP_Obj opL, GAP_Obj opR);
+GAP_Obj QuoRat(GAP_Obj opL, GAP_Obj opR);
+GAP_Obj InvRat(GAP_Obj op);
+GAP_Obj ModRat(GAP_Obj opL, GAP_Obj n);
+GAP_Obj PowRat(GAP_Obj opL, GAP_Obj opR);
+GAP_Obj AbsRat(GAP_Obj op);
+GAP_Obj SignRat(GAP_Obj op);
 }
+
 
 /****************************************************************************
 **

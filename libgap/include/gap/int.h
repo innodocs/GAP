@@ -32,9 +32,10 @@ class Int : public Obj
 protected: // construction from GAP object reference, non-public
   typedef Obj super;
   explicit Int(const GAP_Obj gapObj) : super(gapObj) {}
-private: friend class Obj;
+
+private: friend class Obj; // allow construction from other classes in hierarchy
   template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
-  static const Int makeObj(const GAP_Obj gapObj) { return Int(gapObj); }
+  static const Int apply(const GAP_Obj gapObj) { return Int(gapObj); }
 
 public: // construction, conversion
   Int(const GAP_UInt* limbs, GAP_Int size);
@@ -86,8 +87,8 @@ public: // operations
          Int abs() const;
   static Int mod(const Int& opL, const Int& opR);
          Int mod(const Int& opR) const;
-  static Int inverseMod(const Int& base, const Int& mod);
-         Int inverseMod(const Int& mod) const;
+  static Int invMod(const Int& base, const Int& mod);
+         Int invMod(const Int& mod) const;
   static Int gcd(const Int& opL, const Int& opR);
   static Int lcm(const Int& opL, const Int& opR);
   static Int binomial(const Int& n, const Int& k);
@@ -365,7 +366,7 @@ inline Int operator*(Int opL, const Int& opR)
 *F  <opL> /= <opR>. . . . . . . . . . . . . . . . . . . . . . .divide integer
 *F  <opL> / <opR> . . . . . . . . . . . . . . . . . .division of two integers
 **
-**  the '*=' operator divides the integer <opL> by <opR>.
+**  the '/=' operator divides the integer <opL> by <opR>.
 **  the '/' operator returns the quotient of integers <opL> and <opR>.
 */
 inline Int& Int::operator/=(const Int& opR)
@@ -437,7 +438,7 @@ inline Int Int::abs(const Int& op)
 **
 *F  sign() . . . . . . . . . . . . . . . . . . . . . . . . sign of an integer
 **
-**  'sign' returns the absolute value of the integer <op>.
+**  'sign' returns the sign of the integer <op>.
 */
 inline int Int::sign() const
 {
@@ -473,15 +474,15 @@ inline Int Int::mod(const Int& opL, const Int& opR)
 
 /****************************************************************************
 **
-*F  inverseMod( <base>, <mod> ). . mult. inverse of an integer modulo another
+*F  invMod( <base>, <mod> ) . . . . mult. inverse of an integer modulo another
 */
-inline Int Int::inverseMod(const Int& mod) const
+inline Int Int::invMod(const Int& mod) const
 {
   return Int(InverseModInt(gapObj, mod.gapObj));
 }
-inline Int Int::inverseMod(const Int& base, const Int& mod)
+inline Int Int::invMod(const Int& base, const Int& mod)
 {
-  return base.inverseMod(mod);
+  return base.invMod(mod);
 }
 
 
