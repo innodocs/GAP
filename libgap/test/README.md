@@ -4,6 +4,7 @@
 
 - [Project Euler Problem 1](#project-euler-problem-1)
 - [Project Euler Problem 2](#project-euler-problem-2)
+- [Project Euler Problem 6](#project-euler-problem-6)
 - [Rational Number Series for Pi](#rational-number-series-for-pi)
   
 
@@ -184,6 +185,55 @@ sol 1  |     0.0088 |     4000000000000000000000000000 |     2258545247825195935
 sol 1  |     0.0098 |    40000000000000000000000000000 |    40527950048011752098603204302
 sol 1  |     0.0119 |   400000000000000000000000000000 |   171679151392093647435137529168
 sol 1  |     0.0108 |  4000000000000000000000000000000 |  3080657373857639014791750813074
+
+
+<h3>Project Euler Problem 6</h3>
+
+Sum square difference (see https://projecteuler.net/problem=6):
+>The sum of the squares of the first ten natural numbers is
+>
+>     1^2 + 2^2 + ... + 10^2 = 385
+>
+>  The square of the sum of the first ten natural numbers is,
+>
+>     (1 + 2 + ... + 10)^2 = 552 = 3025
+>
+>  Hence the difference between the sum of the squares of the first ten natural numbers
+>  and the square of the sum is 3025 − 385 = 2640.
+>
+>  Find the difference between the sum of the squares of the first one hundred natural numbers
+>  and the square of the sum.
+
+Timing for `PE-006.cpp`:
+
+Solution | Time (ms) | Max  | Sum
+------ | ---------- | ------------------- | -------------
+C::Int |||
+sol 1  |     0.0003 |          10 |                              2640
+sol 2  |     0.0001 |          10 |                              2640
+sol 1  |     0.0002 |         100 |                          25164150
+sol 2  |     0.0001 |         100 |                          25164150
+sol 1  |     0.0007 |        1000 |                      250166416500
+sol 2  |     0.0001 |        1000 |                      250166416500
+sol 1  |     0.0052 |       10000 |                  2500166641665000
+sol 2  |     0.0001 |       10000 |                  2500166641665000
+Gap::Int |||
+sol 1  |     0.0001 |          10 |                              2640
+sol 2  |      0.001 |          10 |                              2640
+sol 1  |     0.0012 |         100 |                          25164150
+sol 2  |     0.0003 |         100 |                          25164150
+sol 1  |     0.0136 |        1000 |                      250166416500
+sol 2  |     0.0001 |        1000 |                      250166416500
+sol 1  |     0.1114 |       10000 |                  2500166641665000
+sol 2  |     0.0001 |       10000 |                  2500166641665000
+sol 1  |     0.7649 |      100000 |              25000166664166650000
+sol 2  |     0.0008 |      100000 |              25000166664166650000
+sol 1  |     7.9372 |     1000000 |          250000166666416666500000
+sol 2  |     0.0003 |     1000000 |          250000166666416666500000
+sol 1  |    494.947 |    10000000 |      2500000166666641666665000000
+sol 2  |     0.0005 |    10000000 |      2500000166666641666665000000
+sol 1  |    5599.17 |   100000000 |  25000000166666664166666650000000
+sol 2  |     0.0006 |   100000000 |  25000000166666664166666650000000
 
 
 <h3>Rational Number Series for Pi</h3>
