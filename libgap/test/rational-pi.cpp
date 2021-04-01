@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
   int wTime = 14;
 
   for (unsigned long max = 2; max <= MAX; max *= 2)
-    Pi::testHarness<1>(max, wMax, wMax, wTime);
+    Pi::testHarness<1>(max, wMax, wSum, wTime);
 
   return 0;
 }
