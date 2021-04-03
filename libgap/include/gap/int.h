@@ -34,7 +34,7 @@ protected: // construction from GAP object reference, non-public
   explicit Int(const GAP_Obj gapObj) : super(gapObj) {}
 
 private: friend class Obj; // allow construction from other classes in hierarchy
-  template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+  //template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
   static const Int apply(const GAP_Obj gapObj) { return Int(gapObj); }
 
 public: // construction, conversion

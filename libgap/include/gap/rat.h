@@ -48,10 +48,10 @@ public: // runtime type test
   static bool isRat(const Rat& obj);
 
 public: // properties
-  static bool isNeg (const Rat& op) noexcept;
-         bool isNeg () const noexcept;
-  static bool isPos (const Rat& op) noexcept;
-         bool isPos () const noexcept;
+  static bool isNeg(const Rat& op) noexcept;
+         bool isNeg() const noexcept;
+  static bool isPos(const Rat& op) noexcept;
+         bool isPos() const noexcept;
   static int  sign(const Rat& op);
          int  sign() const;
 
@@ -102,11 +102,11 @@ inline Rat::Rat(const Int& num, const Int& den)
 */
 inline Int Rat::num() const noexcept
 {
-  return Obj::apply<Int, Rat>(NUM_RAT(gapObj));
+  return Obj::apply<Int>(NUM_RAT(gapObj));
 }
 inline Int Rat::den() const noexcept
 {
-  return Obj::apply<Int, Rat>(DEN_RAT(gapObj));
+  return Obj::apply<Int>(DEN_RAT(gapObj));
 }
 
 /****************************************************************************
@@ -369,7 +369,7 @@ inline Rat Rat::abs(const Rat& op)
 */
 inline Int Rat::mod(const Int& opR) const
 {
-  return apply<Int, Rat>(ModRat(gapObj, unapply(opR)));
+  return apply<Int>(ModRat(gapObj, unapply(opR)));
 }
 inline Int Rat::mod(const Rat& opL, const Int& opR)
 {

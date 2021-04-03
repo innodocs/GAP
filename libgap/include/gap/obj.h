@@ -40,11 +40,13 @@ protected:
   GAP_Obj gapObj;
 
 protected: // construction from GAP object reference, non-public
-  explicit Obj(GAP_Obj _gapObj);
+  explicit Obj(const GAP_Obj _gapObj);
 
-  template<typename T, typename TC, typename std::enable_if<std::is_base_of<Obj, TC>::value>::type* = nullptr>
-  static const T       apply(const GAP_Obj gapObj) { return T::template apply<TC>(gapObj); }
-  static const GAP_Obj unapply(const Obj& obj) { return obj.gapObj; }
+  //template<typename T, typename TC, typename std::enable_if<std::is_base_of<Obj, TC>::value>::type* = nullptr>
+  //static const T       apply(const GAP_Obj gapObj) { return T::template apply<TC>(gapObj); }
+  template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
+  static const T       apply(const GAP_Obj gapObj) { return T::apply(gapObj); }
+  static const GAP_Obj unapply(const Obj& obj)     { return obj.gapObj; }
 
 public:    // construction, assignement (copy, move)
   Obj(const Obj& obj);
@@ -149,12 +151,14 @@ inline bool operator<=(const T& opL, const T& opR) noexcept
 }
 
 template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
-inline bool operator>(const T& opL, const T& opR) noexcept {
+inline bool operator>(const T& opL, const T& opR) noexcept
+{
   return opR < opL;
 }
 
 template<typename T, typename std::enable_if<std::is_base_of<Obj, T>::value>::type* = nullptr>
-inline bool operator>=(const T& opL, const T& opR) noexcept {
+inline bool operator>=(const T& opL, const T& opR) noexcept
+{
   return !(opL < opR);
 }
 

@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
     Problem6::testHarness<unsigned long, 10>(max, wMax, wSum, wTime);
 
   cout << endl << "Gap::Int |||" << endl;
-  for (unsigned max = 10; max <= MAX; max *= 10)
+  for (unsigned long max = 10; max <= MAX; max *= 10)
     Problem6::testHarness<Gap::Int, 10>(max, wMax, wSum, wTime);
 
   return 0;
