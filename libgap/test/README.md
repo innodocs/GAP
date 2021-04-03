@@ -243,13 +243,11 @@ Madhava / Gregory–Leibniz series (https://en.wikipedia.org/wiki/Leibniz_formul
 and the
 Borwein, Bailey, Plouffe series (https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula)
 
-The first 36,768 digits of Pi are in the file `pi-32768.txt` in this folder. Uncomment
-the last two lines of `main`
+The first 36,768 digits of Pi are in the file `rational-pi-32768.txt` in this folder. If you want the
+program to print out Pi uncomment the last two lines of `main`:
 
         int prec = 32768;
         cout << Pi::prDec(Pi::seriesBBP(prec), prec);
-
-if you want the program to print out Pi.
 
 Timing for `rational-pi.cpp`:
 
